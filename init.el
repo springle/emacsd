@@ -1,11 +1,15 @@
-;; GENERAL
+;;;;;;;;;;;;;;;;;;;;;
+;; GLOBAL SETTINGS ;;
+;;;;;;;;;;;;;;;;;;;;;
+
+;; SET VARIABLES
 (setq
     create-lockfiles nil
     make-backup-files nil
     dired-use-ls-dired nil
     inhibit-startup-screen t)
 
-;; MELPA
+;; CONFIGURE MELPA
 (require 'package)
 (let* ((no-ssl (and (memq system-type '(windows-nt ms-dos))
                     (not (gnutls-available-p))))
