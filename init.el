@@ -96,33 +96,35 @@
 ;; KEYMAP ;;
 ;;;;;;;;;;;;
 
-;; GENERAL
 (define-key evil-normal-state-map " " nil)
 
-;; GIT
-(define-key evil-normal-state-map (kbd "SPC g") 'magit-dispatch-popup)
+;; BUFFERS
+(define-key evil-normal-state-map (kbd "SPC b") 'helm-mini)
+
+;; COMMON
+(define-key evil-normal-state-map (kbd "SPC SPC f f") 'helm-find-files)
+(define-key evil-normal-state-map (kbd "SPC SPC a g") 'helm-ag)
+(define-key evil-normal-state-map (kbd "SPC SPC g") 'magit-dispatch-popup)
+(define-key evil-normal-state-map (kbd "SPC SPC u") 'undo)
+(define-key evil-normal-state-map (kbd "SPC SPC r") 'undo-tree-redo)
 
 ;; FRAMES
 (define-key evil-normal-state-map (kbd "SPC f o") 'other-frame)
-
-;; HELM
-(define-key evil-normal-state-map (kbd "SPC b") 'helm-mini)
-(define-key evil-normal-state-map (kbd "SPC f f") 'helm-find-files)
-(define-key evil-normal-state-map (kbd "SPC a g") 'helm-ag)
+(define-key evil-normal-state-map (kbd "SPC f n") 'make-frame-command)
+(define-key evil-normal-state-map (kbd "SPC f x") 'delete-frame)
 
 ;; META
 (define-key evil-normal-state-map (kbd "SPC m e") 'springle-meta-edit)
 (define-key evil-normal-state-map (kbd "SPC m r") 'springle-meta-reload)
 
-;; UNDO
-(define-key evil-normal-state-map (kbd "SPC u") 'undo)
-(define-key evil-normal-state-map (kbd "SPC r") 'undo-tree-redo)
-
 ;; WINDOWS
-(define-key evil-normal-state-map (kbd "SPC h") 'evil-window-left)
-(define-key evil-normal-state-map (kbd "SPC j") 'evil-window-down)
-(define-key evil-normal-state-map (kbd "SPC k") 'evil-window-up)
-(define-key evil-normal-state-map (kbd "SPC l") 'evil-window-right)
+(define-key evil-normal-state-map (kbd "SPC w h") 'evil-window-left)
+(define-key evil-normal-state-map (kbd "SPC w j") 'evil-window-down)
+(define-key evil-normal-state-map (kbd "SPC w k") 'evil-window-up)
+(define-key evil-normal-state-map (kbd "SPC w l") 'evil-window-right)
+(define-key evil-normal-state-map (kbd "SPC w s") 'evil-window-split)
+(define-key evil-normal-state-map (kbd "SPC w v") 'evil-window-vsplit)
+(define-key evil-normal-state-map (kbd "SPC w o") 'delete-other-windows)
 
 ;; WHICH-KEY
 (which-key-mode)
