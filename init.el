@@ -102,12 +102,12 @@
 (define-key evil-normal-state-map (kbd "SPC b b") 'helm-mini)
 (define-key evil-normal-state-map (kbd "SPC b d") 'kill-this-buffer)
 
-;; COMMON (leader)
-(define-key evil-normal-state-map (kbd "SPC l f") 'helm-find-files)
-(define-key evil-normal-state-map (kbd "SPC l a") 'helm-ag)
-(define-key evil-normal-state-map (kbd "SPC l g") 'magit-dispatch-popup)
-(define-key evil-normal-state-map (kbd "SPC l u") 'undo)
-(define-key evil-normal-state-map (kbd "SPC l r") 'undo-tree-redo)
+;; COMMON
+(define-key evil-normal-state-map (kbd "SPC , f") 'helm-find-files)
+(define-key evil-normal-state-map (kbd "SPC , a") 'helm-ag)
+(define-key evil-normal-state-map (kbd "SPC , g") 'magit-dispatch-popup)
+(define-key evil-normal-state-map (kbd "SPC , u") 'undo)
+(define-key evil-normal-state-map (kbd "SPC , r") 'undo-tree-redo)
 
 ;; FRAMES
 (define-key evil-normal-state-map (kbd "SPC f d") 'delete-frame)
