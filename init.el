@@ -99,19 +99,20 @@
 (define-key evil-normal-state-map " " nil)
 
 ;; BUFFERS
-(define-key evil-normal-state-map (kbd "SPC b") 'helm-mini)
+(define-key evil-normal-state-map (kbd "SPC b b") 'helm-mini)
+(define-key evil-normal-state-map (kbd "SPC b d") 'kill-this-buffer)
 
-;; COMMON
-(define-key evil-normal-state-map (kbd "SPC SPC f f") 'helm-find-files)
-(define-key evil-normal-state-map (kbd "SPC SPC a g") 'helm-ag)
-(define-key evil-normal-state-map (kbd "SPC SPC g") 'magit-dispatch-popup)
-(define-key evil-normal-state-map (kbd "SPC SPC u") 'undo)
-(define-key evil-normal-state-map (kbd "SPC SPC r") 'undo-tree-redo)
+;; COMMON (leader)
+(define-key evil-normal-state-map (kbd "SPC l f") 'helm-find-files)
+(define-key evil-normal-state-map (kbd "SPC l a") 'helm-ag)
+(define-key evil-normal-state-map (kbd "SPC l g") 'magit-dispatch-popup)
+(define-key evil-normal-state-map (kbd "SPC l u") 'undo)
+(define-key evil-normal-state-map (kbd "SPC l r") 'undo-tree-redo)
 
 ;; FRAMES
-(define-key evil-normal-state-map (kbd "SPC f o") 'other-frame)
+(define-key evil-normal-state-map (kbd "SPC f d") 'delete-frame)
 (define-key evil-normal-state-map (kbd "SPC f n") 'make-frame-command)
-(define-key evil-normal-state-map (kbd "SPC f x") 'delete-frame)
+(define-key evil-normal-state-map (kbd "SPC f o") 'other-frame)
 
 ;; META
 (define-key evil-normal-state-map (kbd "SPC m e") 'springle-meta-edit)
@@ -124,7 +125,10 @@
 (define-key evil-normal-state-map (kbd "SPC w l") 'evil-window-right)
 (define-key evil-normal-state-map (kbd "SPC w s") 'evil-window-split)
 (define-key evil-normal-state-map (kbd "SPC w v") 'evil-window-vsplit)
+(define-key evil-normal-state-map (kbd "SPC w e") 'evil-window-rotate-downwards)
+(define-key evil-normal-state-map (kbd "SPC w r") 'evil-window-rotate-upwards)
 (define-key evil-normal-state-map (kbd "SPC w o") 'delete-other-windows)
+(define-key evil-normal-state-map (kbd "SPC w d") 'delete-window)
 
 ;; WHICH-KEY
 (which-key-mode)
