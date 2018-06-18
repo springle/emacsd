@@ -4,3 +4,5 @@ network-security.data
 before-init.el
 recentf
 *.dat
+auto-save-list
+bookmarks
