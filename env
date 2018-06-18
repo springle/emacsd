@@ -1,9 +1,23 @@
+#!/bin/bash
+
+# VARIABLES
+ENV_FILE="~/.emacs.d/env"
+INIT_FILE="~/.emacs.d/init.el"
+LEDGER_FILE="~/Dropbox/ledger/main.ledger"
+MOBILE_LEDGER_FILE="/Users/sam/Library/Mobile\ Documents/iCloud~is~workflow~my~workflows/Documents/ledger.txt"
+MOBILE_ORG_FILE="/Users/sam/Library/Mobile\ Documents/iCloud~is~workflow~my~workflows/Documents/org.txt"
+ORG_FILE="~/org/main.org"
+
 # EMACS
-alias  e="emacs &"
-alias ed="emacs . &"
-alias eo="emacs ~/Dropbox/org &"
-alias el="emacs ~/Dropbox/ledger/main.ledger &"
+alias  e="emacsclient -t"
+alias ed="emacs --daemon"
+alias ee="e $ENV_FILE"
+alias ei="e $INIT_FILE"
+alias eo="e $ORG_FILE"
+alias el="e $LEDGER_FILE"
+alias eml="e $MOBILE_LEDGER_FILE"
+alias emo="e $MOBILE_ORG_FILE"
 
 # LEDGER
-alias  l="ledger -f ~/Dropbox/ledger/main.ledger"
+alias  l="ledger -f $LEDGER_FILE"
 alias lb="ldg bal assets liabilities"
