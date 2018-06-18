@@ -36,7 +36,6 @@
    key-chord
    ledger-mode
    magit
-   org-download
    undo-tree
    which-key
   ))
