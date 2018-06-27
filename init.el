@@ -10,6 +10,11 @@
     dired-use-ls-dired nil
     inhibit-startup-screen t)
 
+;; SET MODES
+(menu-bar-mode -1)
+(scroll-bar-mode -1)
+(tool-bar-mode -1)
+
 ;; CONFIGURE PACKAGE REPOSITORIES
 (require 'package)
 (add-to-list 'package-archives (cons "melpa" "http://melpa.org/packages/"))
@@ -24,6 +29,7 @@
             (package-refresh-contents)
             (package-install package))))
  '(
+   ag
    auto-complete
    evil
    helm
@@ -31,9 +37,51 @@
    key-chord
    ledger-mode
    magit
+   projectile
    undo-tree
    which-key
+   yaml-mode
   ))
+
+;;;;;;;;;;;;
+;; PYTHON ;;
+;;;;;;;;;;;;
+
+;; Configure flymake for Python
+(when (load "flymake" t)
+  (defun flymake-pylint-init ()
+    (let* ((temp-file (flymake-init-create-temp-buffer-copy
+                       'flymake-create-temp-inplace))
+           (local-file (file-relative-name
+                        temp-file
+                        (file-name-directory buffer-file-name))))
+      (list "epylint" (list local-file))))
+  (add-to-list 'flymake-allowed-file-name-masks
+               '("\\.py\\'" flymake-pylint-init)))
+
+;; Set as a minor mode for Python
+(add-hook 'python-mode-hook '(lambda () (flymake-mode)))
+
+;; Configure to wait a bit longer after edits before starting
+(setq-default flymake-no-changes-timeout '1)
+
+;; Keymaps to navigate to the errors
+(add-hook 'python-mode-hook '(lambda () (define-key python-mode-map "\C-cn" 'flymake-goto-next-error)))
+(add-hook 'python-mode-hook '(lambda () (define-key python-mode-map "\C-cp" 'flymake-goto-prev-error)))
+
+;; To avoid having to mouse hover for the error message, these functions make flymake error messages
+;; appear in the minibuffer
+(defun show-fly-err-at-point ()
+  "If the cursor is sitting on a flymake error, display the message in the minibuffer"
+  (require 'cl)
+  (interactive)
+  (let ((line-no (line-number-at-pos)))
+    (dolist (elem flymake-err-info)
+      (if (eq (car elem) line-no)
+      (let ((err (car (second elem))))
+        (message "%s" (flymake-ler-text err)))))))
+
+(add-hook 'post-command-hook 'show-fly-err-at-point)
 
 ;;;;;;;;;;;;;;;;;;;;;;
 ;; PACKAGE SETTINGS ;;
@@ -43,16 +91,11 @@
 (ac-config-default)
 
 ;; EVIL
+(setq evil-want-C-i-jump nil)
 (evil-mode 1)
 
 ;; HELM
-(global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "C-x b") 'helm-mini)
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
-(global-set-key (kbd "C-x C-d") 'helm-browse-project)
-
-;; HELM-AG
-(global-set-key (kbd "C-x C-a g") 'helm-ag)
+(define-key evil-normal-state-map (kbd "M-x") 'helm-M-x)
 
 ;; KEY-CHORD
 (key-chord-mode 1)
@@ -60,25 +103,20 @@
 
 ;; LEDGER
 (autoload 'ledger-mode "ledger-mode" "A major mode for Ledger" t)
-(add-to-list 'load-path
-             (expand-file-name "/path/to/ledger/source/lisp/"))
+(add-to-list 'load-path (expand-file-name "/path/to/ledger/source/lisp/"))
 (add-to-list 'auto-mode-alist '("\\.ledger$" . ledger-mode))
 
-;; MAGIT
-(global-set-key (kbd "C-x g") 'magit-status)
-(global-set-key (kbd "C-x M-g") 'magit-dispatch-popup)
-
 ;; ORG-MODE
-(global-set-key "\C-cl" 'org-store-link)
-(global-set-key "\C-ca" 'org-agenda)
-(global-set-key "\C-cc" 'org-capture)
-(global-set-key "\C-cb" 'org-switchb)
-;; (setq org-agenda-files (list "~/Dropbox/org/"))
+(setq org-agenda-files (list "~/org/"))
+(setq org-log-done 'time)
+(setq org-log-done 'note)
+(setq org-todo-keywords '((sequence "TODO" "WAITING" "|" "DONE")))
 
 ;; UNDO-TREE
 (global-undo-tree-mode 1)
-(global-set-key (kbd "C-z") 'undo)
-(global-set-key (kbd "C-S-z") 'undo-tree-redo)
+
+;; WHICH-KEY
+(which-key-mode)
 
 ;;;;;;;;;;;;;;;
 ;; FUNCTIONS ;;
@@ -92,33 +130,73 @@
   (interactive)
   (eval-buffer (find-file "~/.emacs.d/init.el")))
 
-;;;;;;;;;;;;
-;; KEYMAP ;;
-;;;;;;;;;;;;
+(defun springle-org-main ()
+  (interactive)
+  (eval-buffer (find-file "~/org/main.org")))
+
+;;;;;;;;;;;;;;;;;;
+;; KEYMAP (SPC) ;;
+;;;;;;;;;;;;;;;;;;
 
 (define-key evil-normal-state-map " " nil)
 
-;; BUFFERS
+;; GENERIC
+(define-key evil-normal-state-map (kbd "q") 'kill-this-buffer)
+(define-key evil-normal-state-map (kbd "SPC !") 'shell-command)
+(define-key evil-visual-state-map (kbd "SPC |") 'shell-command-on-region)
+
+;; COMMON (,)
+(define-key evil-normal-state-map (kbd "SPC , f") 'find-file)
+(define-key evil-normal-state-map (kbd "SPC , u") 'undo-tree-visualize)
+(define-key evil-normal-state-map (kbd "SPC , b") 'evil-switch-to-windows-last-buffer)
+(define-key evil-normal-state-map (kbd "SPC , w") 'helm-mini)
+(define-key evil-normal-state-map (kbd "SPC , s") 'helm-ag-project-root)
+(define-key evil-normal-state-map (kbd "SPC , x") 'kill-this-buffer)
+
+;; BUFFERS (b)
 (define-key evil-normal-state-map (kbd "SPC b b") 'helm-mini)
-(define-key evil-normal-state-map (kbd "SPC b d") 'kill-this-buffer)
+(define-key evil-normal-state-map (kbd "SPC b d") 'kill-buffer)
 
-;; COMMON
-(define-key evil-normal-state-map (kbd "SPC , f") 'helm-find-files)
-(define-key evil-normal-state-map (kbd "SPC , a") 'helm-ag)
-(define-key evil-normal-state-map (kbd "SPC , g") 'magit-dispatch-popup)
-(define-key evil-normal-state-map (kbd "SPC , u") 'undo)
-(define-key evil-normal-state-map (kbd "SPC , r") 'undo-tree-redo)
-
-;; FRAMES
+;; FRAMES (f)
 (define-key evil-normal-state-map (kbd "SPC f d") 'delete-frame)
 (define-key evil-normal-state-map (kbd "SPC f n") 'make-frame-command)
 (define-key evil-normal-state-map (kbd "SPC f o") 'other-frame)
 
-;; META
+;; GIT (g)
+(define-key evil-normal-state-map (kbd "SPC g s") 'magit-status)
+(define-key evil-normal-state-map (kbd "SPC g d") 'magit-dispatch-popup)
+
+;; HELP (h)
+(define-key evil-normal-state-map (kbd "SPC h k") 'describe-key)
+(define-key evil-normal-state-map (kbd "SPC h i") 'info)
+
+;; META (m)
 (define-key evil-normal-state-map (kbd "SPC m e") 'springle-meta-edit)
 (define-key evil-normal-state-map (kbd "SPC m r") 'springle-meta-reload)
 
-;; WINDOWS
+;; ORG (o)
+(define-key evil-normal-state-map (kbd "SPC o l") 'org-store-link)
+(define-key evil-normal-state-map (kbd "SPC o a") 'org-agenda)
+(define-key evil-normal-state-map (kbd "SPC o c") 'org-capture)
+(define-key evil-normal-state-map (kbd "SPC o b") 'org-switchb)
+(define-key evil-normal-state-map (kbd "SPC o o") 'springle-org-main)
+
+;; PROJECTS (p)
+(define-key evil-normal-state-map (kbd "SPC p f") 'projectile-find-file)
+(define-key evil-normal-state-map (kbd "SPC p d") 'projectile-discover-projects-in-directory)
+(define-key evil-normal-state-map (kbd "SPC p p") 'projectile-switch-project)
+(define-key evil-normal-state-map (kbd "SPC p b d") 'bookmark-delete)
+(define-key evil-normal-state-map (kbd "SPC p b l") 'list-bookmarks)
+(define-key evil-normal-state-map (kbd "SPC p b n") 'bookmark-set)
+(define-key evil-normal-state-map (kbd "SPC p b o") 'bookmark-jump)
+
+;; EXECUTE (x)
+(define-key evil-normal-state-map (kbd "SPC x") 'helm-M-x)
+(define-key evil-visual-state-map (kbd "SPC x") 'helm-M-x)
+
+;; WINDOWS (w)
+(define-key evil-normal-state-map (kbd "SPC w o") 'delete-other-windows)
+(define-key evil-normal-state-map (kbd "SPC w d") 'delete-window)
 (define-key evil-normal-state-map (kbd "SPC w h") 'evil-window-left)
 (define-key evil-normal-state-map (kbd "SPC w j") 'evil-window-down)
 (define-key evil-normal-state-map (kbd "SPC w k") 'evil-window-up)
@@ -127,11 +205,6 @@
 (define-key evil-normal-state-map (kbd "SPC w v") 'evil-window-vsplit)
 (define-key evil-normal-state-map (kbd "SPC w e") 'evil-window-rotate-downwards)
 (define-key evil-normal-state-map (kbd "SPC w r") 'evil-window-rotate-upwards)
-(define-key evil-normal-state-map (kbd "SPC w o") 'delete-other-windows)
-(define-key evil-normal-state-map (kbd "SPC w d") 'delete-window)
-
-;; WHICH-KEY
-(which-key-mode)
 
 ;;;;;;;;;;;;
 ;; CUSTOM ;;
@@ -142,8 +215,15 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(custom-enabled-themes (quote (leuven)))
- '(package-selected-packages (quote (ledger-mode key-chord magit helm-ag evil))))
+ '(ansi-color-faces-vector
+   [default default default italic underline success warning error])
+ '(ansi-color-names-vector
+   ["#2d3743" "#ff4242" "#74af68" "#dbdb95" "#34cae2" "#008b8b" "#00ede1" "#e1e1e0"])
+ '(custom-enabled-themes (quote (manoj-dark)))
+ '(line-number-mode nil)
+ '(package-selected-packages
+   (quote
+    (projectile ag yaml-mode org-download ledger-mode key-chord magit helm-ag evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

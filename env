@@ -1,9 +1,3 @@
 # EMACS
-alias  e="emacs &"
-alias ed="emacs . &"
-alias eo="emacs ~/Dropbox/org &"
-alias el="emacs ~/Dropbox/ledger/main.ledger &"
-
-# LEDGER
-alias  l="ledger -f ~/Dropbox/ledger/main.ledger"
-alias lb="ldg bal assets liabilities"
+alias e="emacsclient -t "
+alias eo="e ~/org/main.org"
