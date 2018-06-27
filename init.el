@@ -95,7 +95,7 @@
 (evil-mode 1)
 
 ;; HELM
-(define-key evil-normal-state-map (kbd "M-x") 'helm-M-x)
+(global-set-key (kbd "M-x") 'helm-M-x)
 
 ;; KEY-CHORD
 (key-chord-mode 1)
