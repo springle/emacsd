@@ -15,6 +15,10 @@
 (scroll-bar-mode -1)
 (tool-bar-mode -1)
 
+;; SET HOOKS
+(add-hook 'text-mode-hook 'turn-on-auto-fill)
+(add-hook 'org-mode-hook 'turn-on-auto-fill)
+
 ;; CONFIGURE PACKAGE REPOSITORIES
 (require 'package)
 (add-to-list 'package-archives (cons "melpa" "http://melpa.org/packages/"))
@@ -119,6 +123,11 @@
 ;; FUNCTIONS ;;
 ;;;;;;;;;;;;;;;
 
+(defun springle-split (f1 f2)
+  (find-file f1)
+  (split-window-horizontally)
+  (find-file-other-window f2))
+
 (defun springle-meta-edit ()
   (interactive)
   (switch-to-buffer (find-file "~/.emacs.d/init.el")))
@@ -159,6 +168,9 @@
 ;; HELP (h)
 (define-key evil-normal-state-map (kbd "SPC h k") 'describe-key)
 (define-key evil-normal-state-map (kbd "SPC h i") 'info)
+
+;; LEDGER
+(define-key evil-normal-state-map (kbd "SPC l c") 'ledger-mode-clean-buffer)
 
 ;; META (m)
 (define-key evil-normal-state-map (kbd "SPC m e") 'springle-meta-edit)

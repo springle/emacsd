@@ -1,23 +1,18 @@
 #!/bin/bash
 
 # VARIABLES
-ENV_FILE="~/.emacs.d/env"
-INIT_FILE="~/.emacs.d/init.el"
-LEDGER_FILE="~/Dropbox/ledger/main.ledger"
-MOBILE_LEDGER_FILE="/Users/sam/Library/Mobile\ Documents/iCloud~is~workflow~my~workflows/Documents/ledger.txt"
-MOBILE_ORG_FILE="/Users/sam/Library/Mobile\ Documents/iCloud~is~workflow~my~workflows/Documents/org.txt"
-ORG_FILE="~/org/main.org"
+export ENV_FILE=~/.emacs.d/env
+export INIT_FILE=~/.emacs.d/init.el
+export MOBILE_NAMES_FILE=/Users/sam/Library/Mobile\ Documents/iCloud~is~workflow~my~workflows/Documents/names.txt
+export MOBILE_ORG_FILE=/Users/sam/Library/Mobile\ Documents/iCloud~is~workflow~my~workflows/Documents/org.txt
+export ORG_FILE=~/org/main.org
 
 # EMACS
-alias  e="emacsclient -t"
-alias ed="emacs --daemon"
+alias  e="emacsclient -t -nw"
 alias ee="e $ENV_FILE"
 alias ei="e $INIT_FILE"
 alias eo="e $ORG_FILE"
-alias el="e $LEDGER_FILE"
-alias eml="e $MOBILE_LEDGER_FILE"
+alias eod="e $DREAM_FILE"
+alias emn="e $MOBILE_NAMES_FILE"
 alias emo="e $MOBILE_ORG_FILE"
-
-# LEDGER
-alias  l="ledger -f $LEDGER_FILE"
-alias lb="ldg bal assets liabilities"
+alias eoo='e -e "(springle-split    \"~/org/main.org\"       \"~/org/mobile.org\"    )"'
