@@ -38,6 +38,7 @@
    ledger-mode
    magit
    projectile
+   spacemacs-theme
    undo-tree
    which-key
    yaml-mode
@@ -219,11 +220,14 @@
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
    ["#2d3743" "#ff4242" "#74af68" "#dbdb95" "#34cae2" "#008b8b" "#00ede1" "#e1e1e0"])
- '(custom-enabled-themes (quote (manoj-dark)))
+ '(custom-enabled-themes (quote (spacemacs-dark)))
+ '(custom-safe-themes
+   (quote
+    ("7527f3308a83721f9b6d50a36698baaedc79ded9f6d5bd4e9a28a22ab13b3cb1" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
  '(line-number-mode nil)
  '(package-selected-packages
    (quote
-    (projectile ag yaml-mode org-download ledger-mode key-chord magit helm-ag evil))))
+    (nord-theme spacemacs-theme projectile ag yaml-mode org-download ledger-mode key-chord magit helm-ag evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
