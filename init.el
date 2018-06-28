@@ -33,6 +33,7 @@
             (package-refresh-contents)
             (package-install package))))
  '(
+   ag
    auto-complete
    evil
    helm
@@ -40,8 +41,11 @@
    key-chord
    ledger-mode
    magit
+   projectile
+   spacemacs-theme
    undo-tree
    which-key
+   yaml-mode
   ))
 
 ;;;;;;;;;;;;
@@ -108,10 +112,10 @@
 (add-to-list 'auto-mode-alist '("\\.ledger$" . ledger-mode))
 
 ;; ORG-MODE
-(setq
- org-agenda-files (list "~/org/"))
-(setq org-todo-keywords
-  '((sequence "TODO" "WAITING" "|" "DONE")))
+(setq org-agenda-files (list "~/org/"))
+(setq org-log-done 'time)
+(setq org-log-done 'note)
+(setq org-todo-keywords '((sequence "TODO" "WAITING" "|" "DONE")))
 
 ;; UNDO-TREE
 (global-undo-tree-mode 1)
@@ -146,11 +150,18 @@
 
 (define-key evil-normal-state-map " " nil)
 
+;; GENERIC
+(define-key evil-normal-state-map (kbd "q") 'kill-this-buffer)
+(define-key evil-normal-state-map (kbd "SPC !") 'shell-command)
+(define-key evil-visual-state-map (kbd "SPC |") 'shell-command-on-region)
+
 ;; COMMON (,)
 (define-key evil-normal-state-map (kbd "SPC , f") 'find-file)
-(define-key evil-normal-state-map (kbd "SPC , a") 'helm-ag)
 (define-key evil-normal-state-map (kbd "SPC , u") 'undo-tree-visualize)
 (define-key evil-normal-state-map (kbd "SPC , b") 'evil-switch-to-windows-last-buffer)
+(define-key evil-normal-state-map (kbd "SPC , w") 'helm-mini)
+(define-key evil-normal-state-map (kbd "SPC , s") 'helm-ag-project-root)
+(define-key evil-normal-state-map (kbd "SPC , x") 'kill-this-buffer)
 
 ;; BUFFERS (b)
 (define-key evil-normal-state-map (kbd "SPC b b") 'helm-mini)
@@ -184,10 +195,17 @@
 (define-key evil-normal-state-map (kbd "SPC o o") 'springle-org-main)
 
 ;; PROJECTS (p)
+(define-key evil-normal-state-map (kbd "SPC p f") 'projectile-find-file)
+(define-key evil-normal-state-map (kbd "SPC p d") 'projectile-discover-projects-in-directory)
+(define-key evil-normal-state-map (kbd "SPC p p") 'projectile-switch-project)
 (define-key evil-normal-state-map (kbd "SPC p b d") 'bookmark-delete)
 (define-key evil-normal-state-map (kbd "SPC p b l") 'list-bookmarks)
 (define-key evil-normal-state-map (kbd "SPC p b n") 'bookmark-set)
 (define-key evil-normal-state-map (kbd "SPC p b o") 'bookmark-jump)
+
+;; EXECUTE (x)
+(define-key evil-normal-state-map (kbd "SPC x") 'helm-M-x)
+(define-key evil-visual-state-map (kbd "SPC x") 'helm-M-x)
 
 ;; WINDOWS (w)
 (define-key evil-normal-state-map (kbd "SPC w o") 'delete-other-windows)
@@ -214,10 +232,14 @@
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
    ["#2d3743" "#ff4242" "#74af68" "#dbdb95" "#34cae2" "#008b8b" "#00ede1" "#e1e1e0"])
- '(custom-enabled-themes (quote (manoj-dark)))
+ '(custom-enabled-themes (quote (spacemacs-dark)))
+ '(custom-safe-themes
+   (quote
+    ("7527f3308a83721f9b6d50a36698baaedc79ded9f6d5bd4e9a28a22ab13b3cb1" "fa2b58bb98b62c3b8cf3b6f02f058ef7827a8e497125de0254f56e373abee088" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
+ '(line-number-mode nil)
  '(package-selected-packages
    (quote
-    (org-download ledger-mode key-chord magit helm-ag evil))))
+    (nord-theme spacemacs-theme projectile ag yaml-mode org-download ledger-mode key-chord magit helm-ag evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

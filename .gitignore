@@ -2,7 +2,9 @@ elpa/
 network-security.data
 *.swp
 before-init.el
+ac-comphist.dat
+auto-save-list/
+bookmarks
+eshell/
 recentf
 *.dat
-auto-save-list
-bookmarks
