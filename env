@@ -5,8 +5,6 @@ cp .tmux.conf ~/.tmux.conf
 # VARIABLES
 export ENV_FILE=~/.emacs.d/env
 export INIT_FILE=~/.emacs.d/init.el
-export MOBILE_NAMES_FILE=/Users/sam/Library/Mobile\ Documents/iCloud~is~workflow~my~workflows/Documents/names.txt
-export MOBILE_ORG_FILE=/Users/sam/Library/Mobile\ Documents/iCloud~is~workflow~my~workflows/Documents/org.txt
 export ORG_FILE=~/org/main.org
 
 # EMACS
@@ -15,6 +13,3 @@ alias ee="e $ENV_FILE"
 alias ei="e $INIT_FILE"
 alias eo="e $ORG_FILE"
 alias eod="e $DREAM_FILE"
-alias emn="e $MOBILE_NAMES_FILE"
-alias emo="e $MOBILE_ORG_FILE"
-alias eoo='e -e "(springle-split    \"~/org/main.org\"       \"~/org/mobile.org\"    )"'
