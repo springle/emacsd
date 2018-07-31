@@ -8,3 +8,6 @@ bookmarks
 eshell/
 recentf
 *.dat
+diary
+projectile.cache
+projectile-bookmarks.eld
