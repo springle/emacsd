@@ -17,6 +17,10 @@
 (line-number-mode)
 (column-number-mode)
 
+;; SET HOOKS
+(add-hook 'text-mode-hook 'turn-on-auto-fill)
+(add-hook 'org-mode-hook 'turn-on-auto-fill)
+
 ;; CONFIGURE PACKAGE REPOSITORIES
 (require 'package)
 (add-to-list 'package-archives (cons "melpa" "http://melpa.org/packages/"))
@@ -131,6 +135,9 @@
 (global-set-key (kbd "C-x b") 'helm-mini)
 
 
+;; LEDGER
+(define-key evil-normal-state-map (kbd "SPC l c") 'ledger-mode-clean-buffer)
+
 ;; META (m)
 (global-set-key (kbd "C-c m")
 		(lambda ()
@@ -158,24 +165,3 @@
 ;;;;;;;;;;;;
 ;; CUSTOM ;;
 ;;;;;;;;;;;;
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector
-   [default default default italic underline success warning error])
- '(ansi-color-names-vector
-   ["black" "#d55e00" "#009e73" "#f8ec59" "#0072b2" "#cc79a7" "#56b4e9" "white"])
- '(custom-safe-themes
-   (quote
-    ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
- '(package-selected-packages
-   (quote
-    (dockerfile-mode evil-org markdown-mode yaml-mode which-key spacemacs-theme projectile org-download nord-theme neotree magit ledger-mode key-chord helm-ag evil-collection doom-themes auto-complete ag))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )

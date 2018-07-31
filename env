@@ -1,2 +1,2 @@
 #!/bin/bash
-alias  e="emacsclient -t"
+alias  e="emacsclient -t -nw"
